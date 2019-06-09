@@ -20,14 +20,14 @@ const (
 	ExitCodeError   = 1
 )
 
-// Config contains all the options for shutdown manager
+// Config contains all the options for shutdown manager.
 type Config struct {
 	ShutdownTimeout time.Duration
 	Logger          ILogger
 	LogLevel        LogLevel
 }
 
-// Validate validates config options
+// Validate validates config options.
 func (sc Config) Validate() error {
 	if sc.ShutdownTimeout.Nanoseconds() <= 0 {
 		return fmt.Errorf("Config.Validate() field ShutdownTimeout <= zero: %v", sc.ShutdownTimeout)
@@ -44,13 +44,13 @@ func (sc Config) Validate() error {
 	return nil
 }
 
-// String returns human readable string representation of config options
+// String returns human readable string representation of config options.
 func (sc Config) String() string {
 	reprString := "Config{ShutdownTimeout: %s, Logger: %s, LogLevel: %s}"
 	return fmt.Sprintf(reprString, sc.ShutdownTimeout, sc.Logger, sc.LogLevel)
 }
 
-// ShutdownManager shutdowns stoppable services by signal
+// ShutdownManager shutdowns stoppable services by signal.
 type ShutdownManager struct {
 	shutdownTimeout time.Duration
 	logger          ILogger
@@ -60,12 +60,12 @@ type ShutdownManager struct {
 	signalsChan chan os.Signal
 }
 
-// AppendServices appends stoppable services for shutdown by receiving signal
+// AppendServices appends stoppable services for shutdown by receiving signal.
 func (s *ShutdownManager) AppendServices(services ...IStoppable) {
 	s.services = append(s.services, services...)
 }
 
-// RegisterSignals registers OS signals for shutdown
+// RegisterSignals registers OS signals for shutdown.
 func (s *ShutdownManager) RegisterSignals(signals ...os.Signal) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -80,12 +80,12 @@ func (s *ShutdownManager) RegisterSignals(signals ...os.Signal) (err error) {
 	return err
 }
 
-// ResetSignals undoes the effect of any prior calls to RegisterSignals for the provided signals
+// ResetSignals undoes the effect of any prior calls to RegisterSignals for the provided signals.
 func (s *ShutdownManager) ResetSignals(signals ...os.Signal) {
 	signal.Reset(signals...)
 }
 
-// TriggerShutdown trigger inner Shutdown signal (In this case the Wait method will return success exit code - 0)
+// TriggerShutdown trigger inner Shutdown signal (In this case the Wait method will return success exit code - 0).
 func (s *ShutdownManager) TriggerShutdown() {
 	if s.logLevel >= LogLevelInfo {
 		s.logger.Log(LogLevelInfo, "ShutdownManager.TriggerShutdown() trigger shutdown signal")
@@ -97,7 +97,7 @@ func (s *ShutdownManager) TriggerShutdown() {
 	}
 }
 
-// TriggerFatal trigger inner Fatal signal (In this case the Wait method will return error exit code - 1)
+// TriggerFatal trigger inner Fatal signal (In this case the Wait method will return error exit code - 1).
 func (s *ShutdownManager) TriggerFatal() {
 	if s.logLevel >= LogLevelInfo {
 		s.logger.Log(LogLevelInfo, "ShutdownManager.TriggerFatal trigger fatal signal")
@@ -109,7 +109,7 @@ func (s *ShutdownManager) TriggerFatal() {
 	}
 }
 
-// Wait blocks until get signal (os or inner), then stop all tracked services
+// Wait blocks until get signal (os or inner), then stop all tracked services.
 func (s *ShutdownManager) Wait() int {
 	sig, ok := <-s.signalsChan
 	if !ok && s.logLevel >= LogLevelError {
@@ -174,7 +174,7 @@ func (s *ShutdownManager) stop(ctx context.Context) {
 	}
 }
 
-// NewShutdownManager creates and returns new instance of ShutdownManager, using provided config options
+// NewShutdownManager creates and returns new instance of ShutdownManager, using provided config options.
 func NewShutdownManager(cfg Config) *ShutdownManager {
 	shutdowner := &ShutdownManager{
 		shutdownTimeout: cfg.ShutdownTimeout,

@@ -30,6 +30,6 @@ const (
 
 // Logger is the interface used to get logging from graceful-shutdown internals.
 type ILogger interface {
-	// Log a message at the given level with data key/value pairs. data may be nil.
+	// Log a message at the given level.
 	Log(level LogLevel, msg string)
 }
