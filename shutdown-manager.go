@@ -117,7 +117,7 @@ func (s *ShutdownManager) Wait() int {
 	}
 
 	if s.logLevel >= LogLevelInfo {
-		msg := fmt.Sprintf("ShutdownManager.Wait() got signal %v", sig)
+		msg := fmt.Sprintf("ShutdownManager.Wait() got signal %s", sig)
 		s.logger.Log(LogLevelInfo, msg)
 	}
 
