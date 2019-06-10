@@ -27,8 +27,6 @@ func (l *Logger) Log(level gs.LogLevel, msg string) {
 	l.logger.WithLevel(zlevel).Msg(msg)
 }
 
-// NewLogger accepts a zerolog.Logger as input and returns a new custom pgx
-// logging fascade as output.
 func NewLogger(logger zerolog.Logger) *Logger {
 	return &Logger{
 		logger: logger.With().Str("module", "graceful-shutdown").Logger(),
