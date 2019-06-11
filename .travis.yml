@@ -2,5 +2,6 @@ language: golang
 go:
   - 1.11.x
   - 1.12.x
+go_import_path: github.com/emludei/graceful-shutdown
 script:
   - go test ./...
