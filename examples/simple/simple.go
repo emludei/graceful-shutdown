@@ -98,13 +98,17 @@ func main() {
 	}()
 
 	logAdapter := zapadapter.NewLogger(zapLogger)
-	shutdownManager := gs.NewShutdownManager(
-		gs.Config{
-			ShutdownTimeout: 5 * time.Second,
-			Logger:          logAdapter,
-			LogLevel:        gs.LogLevelInfo,
-		},
-	)
+
+	cfg := gs.Config{
+		ShutdownTimeout: 5 * time.Second,
+		Logger:          logAdapter,
+		LogLevel:        gs.LogLevelInfo,
+	}
+	if err := cfg.Validate(); err != nil {
+		// Handle error
+	}
+
+	shutdownManager := gs.NewShutdownManager(cfg)
 
 	firstService := NewService(shutdownManager)
 	secondService := NewService(shutdownManager)
