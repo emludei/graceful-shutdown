@@ -46,7 +46,7 @@ func (c Config) Validate() error {
 
 // String returns human readable string representation of config options.
 func (c Config) String() string {
-	reprString := "Config{ShutdownTimeout: %s, Logger: %s, LogLevel: %s}"
+	reprString := "Config{ShutdownTimeout: %s, Logger: %T, LogLevel: %s}"
 	return fmt.Sprintf(reprString, c.ShutdownTimeout, c.Logger, c.LogLevel)
 }
 
