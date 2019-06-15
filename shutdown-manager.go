@@ -28,26 +28,26 @@ type Config struct {
 }
 
 // Validate validates config options.
-func (sc Config) Validate() error {
-	if sc.ShutdownTimeout.Nanoseconds() <= 0 {
-		return fmt.Errorf("Config.Validate() field ShutdownTimeout <= zero: %v", sc.ShutdownTimeout)
+func (c Config) Validate() error {
+	if c.ShutdownTimeout.Nanoseconds() <= 0 {
+		return fmt.Errorf("Config.Validate() field ShutdownTimeout <= zero: %s", c.ShutdownTimeout)
 	}
 
-	if sc.Logger == nil {
+	if c.Logger == nil {
 		return errors.New("Config.Validate() field Logger is nil")
 	}
 
-	if sc.LogLevel < LogLevelNone || sc.LogLevel > LogLevelDebug {
-		return fmt.Errorf("Config.Validate() field LogLevel has unsupported value: %v", sc.LogLevel)
+	if c.LogLevel < LogLevelNone || c.LogLevel > LogLevelDebug {
+		return fmt.Errorf("Config.Validate() field LogLevel has unsupported value: %s", c.LogLevel)
 	}
 
 	return nil
 }
 
 // String returns human readable string representation of config options.
-func (sc Config) String() string {
+func (c Config) String() string {
 	reprString := "Config{ShutdownTimeout: %s, Logger: %s, LogLevel: %s}"
-	return fmt.Sprintf(reprString, sc.ShutdownTimeout, sc.Logger, sc.LogLevel)
+	return fmt.Sprintf(reprString, c.ShutdownTimeout, c.Logger, c.LogLevel)
 }
 
 // ShutdownManager shutdowns stoppable services by signal.
