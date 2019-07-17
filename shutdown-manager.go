@@ -28,7 +28,7 @@ type Config struct {
 }
 
 // Validate validates config options.
-func (c Config) Validate() error {
+func (c *Config) Validate() error {
 	if c.ShutdownTimeout.Nanoseconds() <= 0 {
 		return fmt.Errorf("Config.Validate() field ShutdownTimeout <= zero: %s", c.ShutdownTimeout)
 	}
@@ -45,7 +45,7 @@ func (c Config) Validate() error {
 }
 
 // String returns human readable string representation of config options.
-func (c Config) String() string {
+func (c *Config) String() string {
 	reprString := "Config{ShutdownTimeout: %s, Logger: %T, LogLevel: %s}"
 	return fmt.Sprintf(reprString, c.ShutdownTimeout, c.Logger, c.LogLevel)
 }
